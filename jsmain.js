@@ -1,4 +1,4 @@
-const SENHA_CORRETA = "minhasenha"; // ⚠️ Altere isso pra algo mais seguro
+const SENHA_CORRETA = "teste"; // ⚠️ Altere isso pra algo mais seguro
 let humorSelecionado = null;
 
 function verificarLogin() {
