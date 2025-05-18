@@ -213,7 +213,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
 
   <script>
-    async function exportarPDF() {
+    async function exportarPDF() async function exportarPDF() {
   const { jsPDF } = window.jspdf;
   const registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
 
@@ -269,20 +269,46 @@
       });
     }
 
-    // Adiciona cada campo com wrap
-    addTextWithWrap(`😄 Humor do dia: ${reg.humor}`, margin + 5, y);
+    // Substituir emojis e caracteres especiais
+    const humorMap = {
+      '😂 Muito bom': 'Humor muito bom',
+      '🙂 Bom': 'Humor bom',
+      '😐 Neutro': 'Humor neutro',
+      '😢 Ruim': 'Humor ruim',
+      '😡 Muito ruim': 'Humor muito ruim',
+    };
+
+    const energiaMap = {
+      'Baixa 🐌': 'Energia baixa',
+      'Média 🦥': 'Energia média',
+      'Alta 🐎': 'Energia alta',
+    };
+
+    const sonoMap = {
+      'Pouco 💤': 'Sono pouco',
+      'Normal 😴': 'Sono normal',
+      'Demais 🛌': 'Sono demais',
+    };
+
+    const medicacaoMap = {
+      'Tomei tudo ✅': 'Tomou toda medicação',
+      'Esqueci alguma ❌': 'Esqueceu alguma medicação',
+      'Não tomei hoje': 'Não tomou medicação hoje',
+    };
+
+    // Adiciona cada campo com wrap e substitui emojis
+    addTextWithWrap(`😄 Humor do dia: ${humorMap[reg.humor] || reg.humor}`, margin + 5, y);
     addTextWithWrap(`💭 Situação: ${reg.situacao || "(não informado)"}`, margin + 5, y);
     addTextWithWrap(`🧠 Pensamento automático: ${reg.pensamento || "(não informado)"}`, margin + 5, y);
     addTextWithWrap(`🔁 Reestruturação: ${reg.reestruturacao || "(não informado)"}`, margin + 5, y);
-    addTextWithWrap(`⚡ Energia: ${reg.energia} | 😴 Sono: ${reg.sono} | 💊 Medicação: ${reg.medicacao}`, margin + 5, y);
-    addTextWithWrap(`🧨 Gatilho: ${reg.gatilho}`, margin + 5, y);
+    addTextWithWrap(`⚡ Energia: ${energiaMap[reg.energia] || reg.energia} | 😴 Sono: ${sonoMap[reg.sono] || reg.sono} | 💊 Medicação: ${medicacaoMap[reg.medicacao] || reg.medicacao}`, margin + 5, y);
+    addTextWithWrap(`🧨 Gatilho: ${reg.gatilho || "(não informado)"}`, margin + 5, y);
     if (reg.observacao) {
       addTextWithWrap(`📝 Observação: ${reg.observacao}`, margin + 5, y);
     }
 
     y += 5;
   });
-
   doc.save("Diario_de_Humor.pdf");
 }
   </script>
