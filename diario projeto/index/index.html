@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🧠 Diário Emocional TCC</title>
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
+
+  <!-- CSS Externo -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Biblioteca para exportar PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+</head>
+<body onload="verificarLogin()">
+
+  <!-- Toggle de tema -->
+  <label class="switch">
+    <input type="checkbox" onclick="alternarTema()">
+    <span class="slider"></span> Modo Escuro
+  </label>
+
+  <!-- Área de login -->
+  <div id="login-area">
+    <h2>🔐 Acesso ao Diário</h2>
+    <input type="password" id="senha-acesso" placeholder="Digite sua senha pessoal" />
+    <button onclick="logar()">Entrar</button>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div id="conteudo-diario" style="display:none;">
+    <h1>🧠 Diário Emocional TCC</h1>
+    <p style="text-align:center;">Registre seu dia com técnicas de Terapia Cognitivo-Comportamental</p>
+
+    <label for="data">Data</label>
+    <input type="date" id="data" value="" />
+
+    <label>Como você está se sentindo hoje?</label><br/>
+    <button onclick="selecionarHumor('feliz', '😊')">😊 Feliz</button>
+    <button onclick="selecionarHumor('animado', '🤩')">🤩 Animado</button>
+    <button onclick="selecionarHumor('normal', '🙂')">🙂 Normal</button>
+    <button onclick="selecionarHumor('cansado', '😴')">😴 Cansado</button>
+    <button onclick="selecionarHumor('triste', '🥺')">🥺 Triste</button>
+    <button onclick="selecionarHumor('ansioso', '😰')">😰 Ansioso</button>
+    <p id="mostrar-humor" style="margin-top:10px;"></p>
+
+    <label for="pan">Pensamento Automático Negativo (PAN)</label>
+    <textarea id="pan" rows="3" placeholder="O que passou pela sua mente?"></textarea>
+
+    <label for="distorcao">Distorção Cognitiva (opcional)</label>
+    <select id="distorcao">
+      <option value="">Selecione uma distorção (opcional)</option>
+      <option value="tudo-ou-nada">Tudo ou Nada</option>
+      <option value="catastrofizacao">Catastrofização</option>
+      <option value="leitura-mental">Leitura Mental</option>
+      <option value="personalizacao">Personalização</option>
+      <option value="generalizacao">Generalização Excessiva</option>
+      <option value="filtro-mental">Filtro Mental</option>
+      <option value="devastacao">Devastação</option>
+      <option value="deveria">Deveria / Precisaria</option>
+      <option value="rotulagem">Rotulagem</option>
+      <option value="culpa">Atribuição de Culpa</option>
+    </select>
+
+    <label for="descricao">Descreva mais sobre o dia (opcional)</label>
+    <textarea id="descricao" rows="5" placeholder="Como foi seu dia? O que aconteceu..."></textarea>
+
+    <label for="pensamento-alternativo">Pensamento Alternativo Racional</label>
+    <textarea id="pensamento-alternativo" rows="3" placeholder="Como eu posso pensar diferente disso?"></textarea>
+
+    <button onclick="salvarRegistro()">💾 Salvar Registro</button>
+    <button onclick="exportarPDF()">📄 Exportar para PDF</button>
+    <button onclick="exportarJSON()">📄 Exportar para JSON</button>
+
+    <h2>📅 Histórico</h2>
+    <div id="historico"></div>
+  </div>
+
+  <!-- JS Externo -->
+  <script src="js/main.js"></script>
+</body>
+</html>
