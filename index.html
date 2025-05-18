@@ -154,34 +154,34 @@
     <label for="humor">😄 Humor do dia</label>
     <select id="humor" name="humor">
       <option value="">Selecione...</option>
-      <option value="😂 Muito bom">😂 Muito bom</option>
-      <option value="🙂 Bom">🙂 Bom</option>
-      <option value="😐 Neutro">😐 Neutro</option>
-      <option value="😢 Ruim">😢 Ruim</option>
-      <option value="😡 Muito ruim">😡 Muito ruim</option>
+      <option value="Muito bom">Muito bom</option>
+      <option value="Bom">Bom</option>
+      <option value="Neutro">Neutro</option>
+      <option value="Ruim">Ruim</option>
+      <option value="Muito ruim">Muito ruim</option>
     </select>
 
     <label for="energia">⚡ Nível de energia</label>
     <select id="energia" name="energia">
       <option value="">Selecione...</option>
-      <option value="Baixa 🐌">Baixa 🐌</option>
-      <option value="Média 🦥">Média 🦥</option>
-      <option value="Alta 🐎">Alta 🐎</option>
+      <option value="Baixa">Baixa</option>
+      <option value="Média">Média</option>
+      <option value="Alta">Alta</option>
     </select>
 
     <label for="sono">😴 Sono da noite anterior</label>
     <select id="sono" name="sono">
       <option value="">Selecione...</option>
-      <option value="Pouco 💤">Pouco 💤</option>
-      <option value="Normal 😴">Normal 😴</option>
-      <option value="Demais 🛌">Demais 🛌</option>
+      <option value="Pouco">Pouco</option>
+      <option value="Normal">Normal</option>
+      <option value="Demais">Demais</option>
     </select>
 
     <label for="medicacao">💊 Tomou medicação?</label>
     <select id="medicacao" name="medicacao">
       <option value="">Selecione...</option>
-      <option value="Tomei tudo ✅">Tomei tudo ✅</option>
-      <option value="Esqueci alguma ❌">Esqueci alguma ❌</option>
+      <option value="Tomei tudo">Tomei tudo</option>
+      <option value="Esqueci alguma">Esqueci alguma</option>
       <option value="Não tomei hoje">Não tomei hoje</option>
     </select>
 
@@ -257,7 +257,7 @@
         return;
       }
 
-      registros.forEach((reg, index) => {
+      registros.forEach((reg) => {
         const div = document.createElement("div");
         div.className = "registro";
         div.innerHTML = `
@@ -306,76 +306,88 @@
       const lineHeight = 7;
       let y = 30;
 
-      // Cabeçalho simulando logo
+      // Cabeçalho
       doc.setFontSize(16);
       doc.setTextColor(50, 50, 50);
-      doc.text("📘 Diário de Humor", margin, 20);
+      doc.text("Diário de Humor", margin, 20);
       doc.setFontSize(10);
       doc.setTextColor(100, 100, 100);
       doc.text("Registros baseados em Terapia Cognitivo-Comportamental", margin, 27);
 
-      // Função auxiliar para escrever linha
-      function writeLine(text) {
-        if (y > 280) {
-          doc.addPage();
-          y = 30;
-        }
-        doc.text(text, margin, y);
-        y += lineHeight;
-      }
+      y = 40;
 
-      // Função para remover emojis
-      function cleanEmojis(text) {
-        return text ? text.replace(/[^a-zA-Z0-9.,:;'"$€£¥₹%\\s]/g, '') : '';
+      // Função para escrever texto com quebra de linha
+      function writeWrapped(text, x, yStart, maxWidth = pageWidth - 2 * margin) {
+        const words = text.split(' ');
+        let line = '';
+        let currentY = yStart;
+
+        for (let n = 0; n < words.length; n++) {
+          const word = words[n];
+          const txtWidth = doc.getTextWidth(line + ' ' + word);
+          if (txtWidth > maxWidth && n > 0) {
+            doc.text(line, x, currentY);
+            line = word;
+            currentY += lineHeight;
+          } else {
+            line = line ? line + ' ' + word : word;
+          }
+        }
+        if (line !== '') {
+          doc.text(line, x, currentY);
+          currentY += lineHeight;
+        }
+        return currentY;
       }
 
       // Gráfico de humor
-      const humorMap = {
-        '😂': 'Muito bom',
-        '🙂': 'Bom',
-        '😐': 'Neutro',
-        '😢': 'Ruim',
-        '😡': 'Muito ruim'
-      };
-
       const humorCount = {};
       registros.forEach(r => {
-        let val = r.humor.split(' ')[0].trim();
-        val = humorMap[val] || val;
-        humorCount[val] = (humorCount[val] || 0) + 1;
+        const tipo = r.humor || "Não especificado";
+        humorCount[tipo] = (humorCount[tipo] || 0) + 1;
       });
 
-      writeLine("📊 Humor ao longo dos dias:");
-      y += 2;
+      doc.setFontSize(12);
+      doc.setTextColor(60, 60, 60);
+      doc.text("📊 Humor ao longo dos dias", margin, y);
+      y += lineHeight + 2;
 
       Object.entries(humorCount).forEach(([tipo, qtd]) => {
-        const bar = "[ " + tipo.padEnd(7) + " ] ";
-        const bars = "■".repeat(qtd);
-        writeLine(bar + bars + " (" + qtd + ")");
+        const bar = "■".repeat(qtd);
+        y = writeWrapped(`${tipo}: ${bar} (${qtd})`, margin, y + lineHeight);
       });
 
-      y += 10;
+      y += lineHeight;
 
-      // Escreve cada registro
-      registros.forEach((reg, index) => {
-        if (index > 0) y += 5;
+      // Registros completos
+      doc.setFontSize(12);
+      doc.setTextColor(60, 60, 60);
 
+      registros.forEach((reg, i) => {
+        if (i > 0) y += lineHeight;
         if (y > 270) {
           doc.addPage();
           y = 30;
         }
 
-        writeLine(`📌 Registro de ${cleanEmojis(reg.data)}`);
-        y += 2;
+        doc.setFontSize(12);
+        doc.setTextColor(60, 60, 60);
+        doc.text(`📌 Registro de ${reg.data}`, margin, y);
+        y += lineHeight + 2;
 
-        writeLine(`Humor do dia: ${cleanEmojis(reg.humor)}`);
-        writeLine(`Situação: ${cleanEmojis(reg.situacao)}`);
-        writeLine(`Pensamento automático: ${cleanEmojis(reg.pensamento)}`);
-        writeLine(`Reestruturação: ${cleanEmojis(reg.reestruturacao)}`);
-        writeLine(`Energia: ${cleanEmojis(reg.energia)} | Sono: ${cleanEmojis(reg.sono)} | Medicação: ${cleanEmojis(reg.medicacao)}`);
-        writeLine(`Gatilho: ${cleanEmojis(reg.gatilho)}`);
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+
+        y = writeWrapped(`Humor do dia: ${reg.humor || "(não informado)"}`, margin + 5, y + 2);
+        y = writeWrapped(`Situação: ${reg.situacao || "(não informado)"}`, margin + 5, y);
+        y = writeWrapped(`Pensamento automático: ${reg.pensamento || "(não informado)"}`, margin + 5, y);
+        y = writeWrapped(`Reestruturação: ${reg.reestruturacao || "(não informado)"}`, margin + 5, y);
+        y = writeWrapped(`Energia: ${reg.energia || "(não informado)"}`, margin + 5, y);
+        y = writeWrapped(`Sono: ${reg.sono || "(não informado)"}`, margin + 5, y);
+        y = writeWrapped(`Medicação: ${reg.medicacao || "(não informado)"}`, margin + 5, y);
+        y = writeWrapped(`Gatilho: ${reg.gatilho || "(não informado)"}`, margin + 5, y);
         if (reg.observacao) {
-          writeLine(`Observação: ${cleanEmojis(reg.observacao)}`);
+          y = writeWrapped(`Observação: ${reg.observacao || "(não informado)"}`, margin + 5, y);
         }
 
         y += 5;
