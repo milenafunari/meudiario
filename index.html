@@ -5,73 +5,133 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>📘 Diário de Humor</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2rem;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    h1 {
-      text-align: center;
-      color: #444;
-    }
-    form {
-      background: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      max-width: 700px;
-      margin: auto;
-    }
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    input[type="text"],
-    textarea,
-    select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.3rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      resize: vertical;
-    }
-    button {
-      margin-top: 1.5rem;
-      padding: 0.7rem 1.5rem;
-      background-color: #6d4c41;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-right: 10px;
-    }
-    button:hover {
-      background-color: #5d4037;
-    }
+    <style>
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-    .historico {
-      margin-top: 3rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .registro {
-      background: #fff;
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+    padding: 2rem;
+  }
+
+  h1 {
+    text-align: center;
+    color: #5e35b1;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    text-align: center;
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    max-width: 700px;
+    margin: auto;
+    border-top: 4px solid #ba68c8;
+  }
+
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #555;
+  }
+
+  input[type="text"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    margin-top: 0.3rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: #7e57c2;
+    box-shadow: 0 0 0 3px rgba(126, 87, 194, 0.2);
+  }
+
+  button {
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #7e57c2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  button:hover {
+    background-color: #673ab7;
+  }
+
+  .historico {
+    margin-top: 3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .registro {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #ce93d8;
+    transition: transform 0.2s ease;
+  }
+
+  .registro:hover {
+    transform: translateX(3px);
+  }
+
+  .registro strong {
+    color: #4a148c;
+    display: inline-block;
+    margin-top: 0.3rem;
+    font-size: 0.95rem;
+  }
+
+  .registro small {
+    color: #888;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 600px) {
+    form, .registro {
       padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-      margin-bottom: 1rem;
     }
-    .registro strong {
-      color: #555;
-    }
-    .registro small {
-      color: #888;
-    }
+  }
+</style>
   </style>
 </head>
 <body>
