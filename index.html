@@ -216,7 +216,6 @@
     const form = document.getElementById("diarioForm");
     const historicoDiv = document.getElementById("historico");
 
-    // Carrega os registros salvos ao iniciar
     window.onload = function() {
       carregarHistorico();
     };
@@ -244,7 +243,7 @@
 
     function salvarRegistro(registro) {
       let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
-      registros.unshift(registro); // Adiciona no início
+      registros.unshift(registro);
       localStorage.setItem("diarioHumor", JSON.stringify(registros));
     }
 
@@ -284,7 +283,7 @@
         return;
       }
 
-      const conteudo = JSON.stringify(registros, null, 2); // Formato bonito
+      const conteudo = JSON.stringify(registros, null, 2);
       const blob = new Blob([conteudo], { type: 'application/json' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
@@ -304,86 +303,79 @@
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
       const margin = 20;
-      const maxWidth = pageWidth - margin * 2;
+      const lineHeight = 7;
+      let y = 30;
 
-      // Configurações iniciais
-      doc.setFont("helvetica");
+      // Cabeçalho simulando logo
       doc.setFontSize(16);
       doc.setTextColor(50, 50, 50);
-
-      // Cabeçalho
       doc.text("📘 Diário de Humor", margin, 20);
       doc.setFontSize(10);
       doc.setTextColor(100, 100, 100);
       doc.text("Registros baseados em Terapia Cognitivo-Comportamental", margin, 27);
 
-      let y = 40;
+      // Função auxiliar para escrever linha
+      function writeLine(text) {
+        if (y > 280) {
+          doc.addPage();
+          y = 30;
+        }
+        doc.text(text, margin, y);
+        y += lineHeight;
+      }
 
-      registros.forEach((reg, i) => {
-        if (i > 0) y += 10;
+      // Função para remover emojis
+      function cleanEmojis(text) {
+        return text ? text.replace(/[^a-zA-Z0-9.,:;'"$€£¥₹%\\s]/g, '') : '';
+      }
+
+      // Gráfico de humor
+      const humorMap = {
+        '😂': 'Muito bom',
+        '🙂': 'Bom',
+        '😐': 'Neutro',
+        '😢': 'Ruim',
+        '😡': 'Muito ruim'
+      };
+
+      const humorCount = {};
+      registros.forEach(r => {
+        let val = r.humor.split(' ')[0].trim();
+        val = humorMap[val] || val;
+        humorCount[val] = (humorCount[val] || 0) + 1;
+      });
+
+      writeLine("📊 Humor ao longo dos dias:");
+      y += 2;
+
+      Object.entries(humorCount).forEach(([tipo, qtd]) => {
+        const bar = "[ " + tipo.padEnd(7) + " ] ";
+        const bars = "■".repeat(qtd);
+        writeLine(bar + bars + " (" + qtd + ")");
+      });
+
+      y += 10;
+
+      // Escreve cada registro
+      registros.forEach((reg, index) => {
+        if (index > 0) y += 5;
+
         if (y > 270) {
           doc.addPage();
           y = 30;
         }
 
-        // Título do registro
-        doc.setFontSize(12);
-        doc.setTextColor(60, 60, 60);
-        doc.text(`📌 Registro de ${reg.data}`, margin, y);
+        writeLine(`📌 Registro de ${cleanEmojis(reg.data)}`);
+        y += 2;
 
-        y += 7;
-        doc.setFontSize(10);
-        doc.setTextColor(80, 80, 80);
-
-        // Função auxiliar para adicionar texto com quebra automática
-        function addTextWithWrap(text, x, yStart) {
-          const lines = doc.splitTextToSize(text, maxWidth);
-          lines.forEach(line => {
-            if (y > 280) {
-              doc.addPage();
-              y = 30;
-            }
-            doc.text(line, x, y);
-            y += 7;
-          });
-        }
-
-        // Substituir emojis e caracteres especiais
-        const humorMap = {
-          '😂 Muito bom': 'Humor muito bom',
-          '🙂 Bom': 'Humor bom',
-          '😐 Neutro': 'Humor neutro',
-          '😢 Ruim': 'Humor ruim',
-          '😡 Muito ruim': 'Humor muito ruim',
-        };
-
-        const energiaMap = {
-          'Baixa 🐌': 'Energia baixa',
-          'Média 🦥': 'Energia média',
-          'Alta 🐎': 'Energia alta',
-        };
-
-        const sonoMap = {
-          'Pouco 💤': 'Sono pouco',
-          'Normal 😴': 'Sono normal',
-          'Demais 🛌': 'Sono demais',
-        };
-
-        const medicacaoMap = {
-          'Tomei tudo ✅': 'Tomou toda medicação',
-          'Esqueci alguma ❌': 'Esqueceu alguma medicação',
-          'Não tomei hoje': 'Não tomou medicação hoje',
-        };
-
-        // Adiciona cada campo com wrap e substitui emojis
-        addTextWithWrap(`😄 Humor do dia: ${humorMap[reg.humor] || reg.humor}`, margin + 5, y);
-        addTextWithWrap(`💭 Situação: ${reg.situacao || "(não informado)"}`, margin + 5, y);
-        addTextWithWrap(`🧠 Pensamento automático: ${reg.pensamento || "(não informado)"}`, margin + 5, y);
-        addTextWithWrap(`🔁 Reestruturação: ${reg.reestruturacao || "(não informado)"}`, margin + 5, y);
-        addTextWithWrap(`⚡ Energia: ${energiaMap[reg.energia] || reg.energia} | 😴 Sono: ${sonoMap[reg.sono] || reg.sono} | 💊 Medicação: ${medicacaoMap[reg.medicacao] || reg.medicacao}`, margin + 5, y);
-        addTextWithWrap(`🧨 Gatilho: ${reg.gatilho || "(não informado)"}`, margin + 5, y);
+        writeLine(`Humor do dia: ${cleanEmojis(reg.humor)}`);
+        writeLine(`Situação: ${cleanEmojis(reg.situacao)}`);
+        writeLine(`Pensamento automático: ${cleanEmojis(reg.pensamento)}`);
+        writeLine(`Reestruturação: ${cleanEmojis(reg.reestruturacao)}`);
+        writeLine(`Energia: ${cleanEmojis(reg.energia)} | Sono: ${cleanEmojis(reg.sono)} | Medicação: ${cleanEmojis(reg.medicacao)}`);
+        writeLine(`Gatilho: ${cleanEmojis(reg.gatilho)}`);
         if (reg.observacao) {
-          addTextWithWrap(`📝 Observação: ${reg.observacao}`, margin + 5, y);
+          writeLine(`Observação: ${cleanEmojis(reg.observacao)}`);
         }
 
         y += 5;
