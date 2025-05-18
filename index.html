@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📘 Diário de Humor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #444;
+    }
+    form {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 700px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      background-color: #6d4c41;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #5d4037;
+    }
+
+    .historico {
+      margin-top: 3rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .registro {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .registro strong {
+      color: #555;
+    }
+    .registro small {
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📘 Diário de Humor</h1>
+  <p style="text-align:center;">Registre seu dia com leveza e reestruture pensamentos usando técnicas da TCC.</p>
+
+  <form id="diarioForm">
+    
+    <label for="data">📅 Data</label>
+    <input type="date" id="data" name="data" required />
+
+    <label for="situacao">💭 Situação do dia</label>
+    <textarea id="situacao" name="situacao" rows="3" placeholder="Descreva brevemente o que aconteceu..."></textarea>
+
+    <label for="pensamento">🧠 Pensamento automático</label>
+    <textarea id="pensamento" name="pensamento" rows="3" placeholder="O que veio à mente automaticamente?"></textarea>
+
+    <label for="reestruturacao">🔁 Reestruturação cognitiva</label>
+    <textarea id="reestruturacao" name="reestruturacao" rows="3" placeholder="Como você vê a situação agora, de forma mais realista ou leve?"></textarea>
+
+    <label for="humor">😄 Humor do dia</label>
+    <select id="humor" name="humor">
+      <option value="">Selecione...</option>
+      <option value="😂 Muito bom">😂 Muito bom</option>
+      <option value="🙂 Bom">🙂 Bom</option>
+      <option value="😐 Neutro">😐 Neutro</option>
+      <option value="😢 Ruim">😢 Ruim</option>
+      <option value="😡 Muito ruim">😡 Muito ruim</option>
+    </select>
+
+    <label for="energia">⚡ Nível de energia</label>
+    <select id="energia" name="energia">
+      <option value="">Selecione...</option>
+      <option value="Baixa 🐌">Baixa 🐌</option>
+      <option value="Média 🦥">Média 🦥</option>
+      <option value="Alta 🐎">Alta 🐎</option>
+    </select>
+
+    <label for="sono">😴 Sono da noite anterior</label>
+    <select id="sono" name="sono">
+      <option value="">Selecione...</option>
+      <option value="Pouco 💤">Pouco 💤</option>
+      <option value="Normal 😴">Normal 😴</option>
+      <option value="Demais 🛌">Demais 🛌</option>
+    </select>
+
+    <label for="medicacao">💊 Tomou medicação?</label>
+    <select id="medicacao" name="medicacao">
+      <option value="">Selecione...</option>
+      <option value="Tomei tudo ✅">Tomei tudo ✅</option>
+      <option value="Esqueci alguma ❌">Esqueci alguma ❌</option>
+      <option value="Não tomei hoje">Não tomei hoje</option>
+    </select>
+
+    <label for="gatilho">🧨 Gatilho emocional do dia</label>
+    <select id="gatilho" name="gatilho">
+      <option value="">Selecione...</option>
+      <option value="Estresse">Estresse</option>
+      <option value="Festa/fim de semana">Festa/fim de semana</option>
+      <option value="Discussão">Discussão</option>
+      <option value="Nada específico">Nada específico</option>
+      <option value="Outro">Outro</option>
+    </select>
+
+    <label for="observacao">📝 Observação final (opcional)</label>
+    <textarea id="observacao" name="observacao" rows="3" placeholder="Alguma coisa que quer lembrar? Ou uma piada sua sobre o dia..."></textarea>
+
+    <button type="submit">💾 Registrar meu dia</button>
+    <button type="button" onclick="exportarRegistros()">📥 Exportar Registros (.json)</button>
+    <button type="button" onclick="exportarPDF()">📄 Exportar como PDF</button>
+  </form>
+
+  <!-- Área de histórico -->
+  <div class="historico" id="historico">
+    <h2>🕒 Histórico de Registros</h2>
+    <p><small>Os registros são salvos localmente no seu navegador.</small></p>
+  </div>
+
+  <!-- Biblioteca jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+
+  <script>
+    const form = document.getElementById("diarioForm");
+    const historicoDiv = document.getElementById("historico");
+
+    // Carrega os registros salvos ao iniciar
+    window.onload = function() {
+      carregarHistorico();
+    };
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const registro = {
+        data: document.getElementById("data").value,
+        situacao: document.getElementById("situacao").value,
+        pensamento: document.getElementById("pensamento").value,
+        reestruturacao: document.getElementById("reestruturacao").value,
+        humor: document.getElementById("humor").value,
+        energia: document.getElementById("energia").value,
+        sono: document.getElementById("sono").value,
+        medicacao: document.getElementById("medicacao").value,
+        gatilho: document.getElementById("gatilho").value,
+        observacao: document.getElementById("observacao").value
+      };
+
+      salvarRegistro(registro);
+      form.reset();
+      carregarHistorico();
+    });
+
+    function salvarRegistro(registro) {
+      let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
+      registros.unshift(registro); // Adiciona no início
+      localStorage.setItem("diarioHumor", JSON.stringify(registros));
+    }
+
+    function carregarHistorico() {
+      let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
+
+      historicoDiv.innerHTML = "<h2>🕒 Histórico de Registros</h2><p><small>Os registros são salvos localmente no seu navegador.</small></p>";
+
+      if (registros.length === 0) {
+        historicoDiv.innerHTML += "<p><em>Você ainda não fez nenhum registro.</em></p>";
+        return;
+      }
+
+      registros.forEach((reg, index) => {
+        const div = document.createElement("div");
+        div.className = "registro";
+        div.innerHTML = `
+          <strong>${reg.data}</strong> - ${reg.humor}<br><br>
+          <strong>Situação:</strong> ${reg.situacao || "<em>não informado</em>"}<br><br>
+          <strong>Pensamento automático:</strong> ${reg.pensamento || "<em>não informado</em>"}<br><br>
+          <strong>Reestruturação:</strong> ${reg.reestruturacao || "<em>não informado</em>"}<br><br>
+          <strong>Energia:</strong> ${reg.energia || "<em>não informado</em>"} | 
+          <strong>Sono:</strong> ${reg.sono || "<em>não informado</em>"} | 
+          <strong>Medicação:</strong> ${reg.medicacao || "<em>não informado</em>"}<br>
+          <strong>Gatilho:</strong> ${reg.gatilho || "<em>não informado</em>"}<br><br>
+          <strong>Observação:</strong> ${reg.observacao || "<em>não informado</em>"}
+        `;
+        historicoDiv.appendChild(div);
+      });
+    }
+
+    function exportarRegistros() {
+      let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
+
+      if (registros.length === 0) {
+        alert("Você não tem registros para exportar.");
+        return;
+      }
+
+      const conteudo = JSON.stringify(registros, null, 2); // Formato bonito
+      const blob = new Blob([conteudo], { type: 'application/json' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "diario_de_humor_exportado.json";
+      link.click();
+    }
+
+    async function exportarPDF() {
+      const { jsPDF } = window.jspdf;
+      const registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
+
+      if (registros.length === 0) {
+        alert("Você não tem registros para exportar.");
+        return;
+      }
+
+      const doc = new jsPDF();
+
+      // Cabeçalho
+      doc.setFontSize(16);
+      doc.setTextColor(40, 40, 40);
+      doc.text("📘 Diário de Humor", 105, 20, null, null, "center");
+
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      doc.text("Registros baseados em Terapia Cognitivo-Comportamental", 105, 27, null, null, "center");
+
+      let y = 40;
+
+      registros.forEach((reg, i) => {
+        if (i > 0) y += 10;
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+
+        doc.setFontSize(12);
+        doc.setTextColor(60, 60, 60);
+        doc.text(`📌 Registro de ${reg.data}`, 20, y);
+
+        y += 7;
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+        doc.text(`Humor do dia: ${reg.humor}`, 25, y);
+
+        y += 7;
+        doc.text(`Situação: ${reg.situacao || "(não informado)"}`, 25, y);
+
+        y += 7;
+        doc.text(`Pensamento automático: ${reg.pensamento || "(não informado)"}`, 25, y);
+
+        y += 7;
+        doc.text(`Reestruturação: ${reg.reestruturacao || "(não informado)"}`, 25, y);
+
+        y += 7;
+        doc.text(`Energia: ${reg.energia} | Sono: ${reg.sono} | Medicação: ${reg.medicacao}`, 25, y);
+
+        y += 7;
+        doc.text(`Gatilho: ${reg.gatilho}`, 25, y);
+
+        if (reg.observacao) {
+          y += 7;
+          doc.text(`Observação: ${reg.observacao}`, 25, y);
+        }
+
+        y += 10;
+      });
+
+      doc.save("Diario_de_Humor.pdf");
+    }
+  </script>
+
+</body>
+</html>
