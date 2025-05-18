@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🧠 Diário Emocional TCC</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .registro {
+      background: white;
+      padding: 15px;
+      margin-top: 15px;
+      border-left: 5px solid #4CAF50;
+      border-radius: 5px;
+    }
+    .triste { border-color: #EF5350; }
+    .normal { border-color: #FFA726; }
+    .feliz { border-color: #4CAF50; }
+  </style>
+
+  <!-- Biblioteca para exportar PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+</head>
+<body onload="verificarLogin()">
+
+<div id="login-area">
+  <h2>🔐 Acesso ao Diário</h2>
+  <input type="password" id="senha-acesso" placeholder="Digite sua senha pessoal" />
+  <button onclick="logar()">Entrar</button>
+</div>
+
+<div id="conteudo-diario" style="display:none;">
+  <h1>🧠 Diário Emocional TCC</h1>
+  <p style="text-align:center;">Registre seu dia com técnicas de Terapia Cognitivo-Comportamental</p>
+
+  <label for="data">Data</label>
+  <input type="date" id="data" value="" />
+
+  <label for="humor">Como você está se sentindo hoje?</label><br/>
+  <button onclick="selecionarHumor('feliz', '😊')">😊 Feliz</button>
+  <button onclick="selecionarHumor('normal', '🙂')">🙂 Normal</button>
+  <button onclick="selecionarHumor('triste', '🥺')">🥺 Triste</button>
+  <p id="mostrar-humor" style="margin-top:10px;"></p>
+
+  <label for="pan">Pensamento Automático Negativo (PAN)</label>
+  <textarea id="pan" rows="3" placeholder="O que passou pela sua mente?"></textarea>
+
+  <label for="distorcao">Distorção Cognitiva (opcional)</label>
+  <select id="distorcao">
+    <option value="">Selecione uma distorção (opcional)</option>
+    <option value="tudo-ou-nada">Tudo ou Nada</option>
+    <option value="catastrofizacao">Catastrofização</option>
+    <option value="leitura-mental">Leitura Mental</option>
+    <option value="personalizacao">Personalização</option>
+    <option value="generalizacao">Generalização Excessiva</option>
+    <option value="filtro-mental">Filtro Mental</option>
+    <option value="devastacao">Devastação</option>
+    <option value="deveria">Deveria / Precisaria</option>
+    <option value="rotulagem">Rotulagem</option>
+    <option value="culpa">Atribuição de Culpa</option>
+  </select>
+
+  <label for="descricao">Descreva mais sobre o dia (opcional)</label>
+  <textarea id="descricao" rows="5" placeholder="Como foi seu dia? O que aconteceu..."></textarea>
+
+  <label for="pensamento-alternativo">Pensamento Alternativo Racional</label>
+  <textarea id="pensamento-alternativo" rows="3" placeholder="Como eu posso pensar diferente disso?"></textarea>
+
+  <button onclick="salvarRegistro()">💾 Salvar Registro</button>
+  <button onclick="exportarPDF()">📄 Exportar para PDF</button>
+
+  <h2>📅 Histórico</h2>
+  <div id="historico"></div>
+</div>
+
+<script>
+  const SENHA_CORRETA = "minhasenha"; // ⚠️ Altere isso pra algo mais seguro
+
+  function verificarLogin() {
+    if (localStorage.getItem("logado") === "sim") {
+      document.getElementById("login-area").style.display = "none";
+      document.getElementById("conteudo-diario").style.display = "block";
+      carregarHistorico();
+    } else {
+      document.getElementById("login-area").style.display = "block";
+      document.getElementById("conteudo-diario").style.display = "none";
+    }
+  }
+
+  function logar() {
+    const senhaDigitada = document.getElementById("senha-acesso").value;
+    if (senhaDigitada === SENHA_CORRETA) {
+      localStorage.setItem("logado", "sim");
+      location.reload();
+    } else {
+      alert("Senha incorreta!");
+    }
+  }
+
+  let humorSelecionado = null;
+
+  function selecionarHumor(tipo, emoji) {
+    humorSelecionado = { tipo, emoji };
+    document.getElementById("mostrar-humor").innerHTML = `Você escolheu: <strong>${emoji}</strong>`;
+  }
+
+  function salvarRegistro() {
+    const data = document.getElementById("data").value;
+    const pan = document.getElementById("pan").value.trim();
+    const distorcao = document.getElementById("distorcao").value;
+    const descricao = document.getElementById("descricao").value.trim();
+    const pensamentoAlt = document.getElementById("pensamento-alternativo").value.trim();
+
+    if (!data || !pan || !pensamentoAlt) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    if (!humorSelecionado) {
+      alert("Por favor, selecione seu humor antes de salvar.");
+      return;
+    }
+
+    const registro = {
+      data,
+      ...humorSelecionado,
+      pan,
+      distorcao,
+      descricao,
+      pensamentoAlt
+    };
+
+    let registros = JSON.parse(localStorage.getItem("meuDiarioTCC") || "[]");
+    registros.push(registro);
+    localStorage.setItem("meuDiarioTCC", JSON.stringify(registros));
+
+    alert("✅ Registro salvo com sucesso!");
+    limparCampos();
+    carregarHistorico();
+  }
+
+  function limparCampos() {
+    document.getElementById("pan").value = "";
+    document.getElementById("descricao").value = "";
+    document.getElementById("pensamento-alternativo").value = "";
+    document.getElementById("distorcao").selectedIndex = 0;
+    document.getElementById("mostrar-humor").innerHTML = "";
+    humorSelecionado = null;
+  }
+
+  function carregarHistorico() {
+    const historicoDiv = document.getElementById("historico");
+    historicoDiv.innerHTML = "";
+
+    const registros = JSON.parse(localStorage.getItem("meuDiarioTCC") || "[]");
+
+    registros.forEach(r => {
+      const div = document.createElement("div");
+      div.className = "registro " + r.tipo;
+
+      div.innerHTML = `
+        <strong>${r.data}</strong> - ${r.emoji}<br/>
+        <b>Pensamento Automático:</b> ${r.pan}<br/>
+        <b>Distorção:</b> ${r.distorcao || 'não identificada'}<br/>
+        <b>Descrição:</b> ${r.descricao || 'sem descrição'}<br/>
+        <b>Pensamento Alternativo:</b> ${r.pensamentoAlt}
+        <hr/>
+      `;
+      historicoDiv.appendChild(div);
+    });
+  }
+
+  async function exportarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const registros = JSON.parse(localStorage.getItem("meuDiarioTCC") || "[]");
+
+    let texto = "Meu Diário TCC\n\n";
+    registros.forEach((r, i) => {
+      texto += `${i+1}. Data: ${r.data} - ${r.emoji}\n`;
+      texto += `Pensamento Automático: ${r.pan}\n`;
+      texto += `Distorção: ${r.distorcao || 'não identificada'}\n`;
+      texto += `Descrição: ${r.descricao || 'sem descrição'}\n`;
+      texto += `Pensamento Alternativo: ${r.pensamentoAlt}\n\n`;
+    });
+
+    doc.text(texto, 10, 10);
+    doc.save("meu_diario_tcc.pdf");
+  }
+</script>
+</body>
+</html>
