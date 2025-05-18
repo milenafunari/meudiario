@@ -5,137 +5,137 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>📘 Diário de Humor</title>
   <style>
-  /* Reset básico */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    line-height: 1.6;
-    padding: 2rem;
-  }
-
-  h1 {
-    text-align: center;
-    color: #5e35b1;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    text-align: center;
-    color: #666;
-    font-size: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  form {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    max-width: 700px;
-    margin: auto;
-    border-top: 4px solid #ba68c8;
-  }
-
-  label {
-    display: block;
-    margin-top: 1rem;
-    font-weight: 600;
-    color: #555;
-  }
-
-  input[type="text"],
-  textarea,
-  select {
-    width: 100%;
-    padding: 0.6rem 1rem;
-    margin-top: 0.3rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    resize: vertical;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-  }
-
-  input[type="text"]:focus,
-  textarea:focus,
-  select:focus {
-    outline: none;
-    border-color: #7e57c2;
-    box-shadow: 0 0 0 3px rgba(126, 87, 194, 0.2);
-  }
-
-  button {
-    margin-top: 1.5rem;
-    padding: 0.6rem 1.2rem;
-    background-color: #7e57c2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  button:hover {
-    background-color: #673ab7;
-  }
-
-  .historico {
-    margin-top: 3rem;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .registro {
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    margin-bottom: 1.5rem;
-    border-left: 5px solid #ce93d8;
-    transition: transform 0.2s ease;
-  }
-
-  .registro:hover {
-    transform: translateX(3px);
-  }
-
-  .registro strong {
-    color: #4a148c;
-    display: inline-block;
-    margin-top: 0.3rem;
-    font-size: 0.95rem;
-  }
-
-  .registro small {
-    color: #888;
-    font-size: 0.85rem;
-  }
-
-  @media (max-width: 600px) {
-    form, .registro {
-      padding: 1rem;
+    /* Reset básico */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-  }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #5e35b1;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      text-align: center;
+      color: #666;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      max-width: 700px;
+      margin: auto;
+      border-top: 4px solid #ba68c8;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #555;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      margin-top: 0.3rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #7e57c2;
+      box-shadow: 0 0 0 3px rgba(126, 87, 194, 0.2);
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.2rem;
+      background-color: #7e57c2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    button:hover {
+      background-color: #673ab7;
+    }
+
+    .historico {
+      margin-top: 3rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .registro {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 1.5rem;
+      border-left: 5px solid #ce93d8;
+      transition: transform 0.2s ease;
+    }
+
+    .registro:hover {
+      transform: translateX(3px);
+    }
+
+    .registro strong {
+      color: #4a148c;
+      display: inline-block;
+      margin-top: 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    .registro small {
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 600px) {
+      form, .registro {
+        padding: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
 
   <h1>📘 Diário de Humor</h1>
-  <p style="text-align:center;">Registre seu dia com leveza e reestruture pensamentos usando técnicas da TCC.</p>
+  <p>Registre seu dia com leveza e reestruture pensamentos usando técnicas da TCC.</p>
 
   <form id="diarioForm">
     
@@ -213,104 +213,184 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
 
   <script>
-    async function exportarPDF() async function exportarPDF() {
-  const { jsPDF } = window.jspdf;
-  const registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
+    const form = document.getElementById("diarioForm");
+    const historicoDiv = document.getElementById("historico");
 
-  if (registros.length === 0) {
-    alert("Você não tem registros para exportar.");
-    return;
-  }
+    // Carrega os registros salvos ao iniciar
+    window.onload = function() {
+      carregarHistorico();
+    };
 
-  const doc = new jsPDF();
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const margin = 20;
-  const maxWidth = pageWidth - margin * 2;
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
 
-  // Configurações iniciais
-  doc.setFont("helvetica");
-  doc.setFontSize(16);
-  doc.setTextColor(50, 50, 50);
+      const registro = {
+        data: document.getElementById("data").value,
+        situacao: document.getElementById("situacao").value,
+        pensamento: document.getElementById("pensamento").value,
+        reestruturacao: document.getElementById("reestruturacao").value,
+        humor: document.getElementById("humor").value,
+        energia: document.getElementById("energia").value,
+        sono: document.getElementById("sono").value,
+        medicacao: document.getElementById("medicacao").value,
+        gatilho: document.getElementById("gatilho").value,
+        observacao: document.getElementById("observacao").value
+      };
 
-  // Cabeçalho
-  doc.text("📘 Diário de Humor", margin, 20);
-  doc.setFontSize(10);
-  doc.setTextColor(100, 100, 100);
-  doc.text("Registros baseados em Terapia Cognitivo-Comportamental", margin, 27);
+      salvarRegistro(registro);
+      form.reset();
+      carregarHistorico();
+    });
 
-  let y = 40;
-
-  registros.forEach((reg, i) => {
-    if (i > 0) y += 10;
-    if (y > 270) {
-      doc.addPage();
-      y = 30;
+    function salvarRegistro(registro) {
+      let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
+      registros.unshift(registro); // Adiciona no início
+      localStorage.setItem("diarioHumor", JSON.stringify(registros));
     }
 
-    // Título do registro
-    doc.setFontSize(12);
-    doc.setTextColor(60, 60, 60);
-    doc.text(`📌 Registro de ${reg.data}`, margin, y);
+    function carregarHistorico() {
+      let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
 
-    y += 7;
-    doc.setFontSize(10);
-    doc.setTextColor(80, 80, 80);
+      historicoDiv.innerHTML = "<h2>🕒 Histórico de Registros</h2><p><small>Os registros são salvos localmente no seu navegador.</small></p>";
 
-    // Função auxiliar para adicionar texto com quebra automática
-    function addTextWithWrap(text, x, yStart) {
-      const lines = doc.splitTextToSize(text, maxWidth);
-      lines.forEach(line => {
-        if (y > 280) {
-          doc.addPage();
-          y = 30;
-        }
-        doc.text(line, x, y);
-        y += 7;
+      if (registros.length === 0) {
+        historicoDiv.innerHTML += "<p><em>Você ainda não fez nenhum registro.</em></p>";
+        return;
+      }
+
+      registros.forEach((reg, index) => {
+        const div = document.createElement("div");
+        div.className = "registro";
+        div.innerHTML = `
+          <strong>${reg.data}</strong> - ${reg.humor}<br><br>
+          <strong>Situação:</strong> ${reg.situacao || "<em>não informado</em>"}<br><br>
+          <strong>Pensamento automático:</strong> ${reg.pensamento || "<em>não informado</em>"}<br><br>
+          <strong>Reestruturação:</strong> ${reg.reestruturacao || "<em>não informado</em>"}<br><br>
+          <strong>Energia:</strong> ${reg.energia || "<em>não informado</em>"} | 
+          <strong>Sono:</strong> ${reg.sono || "<em>não informado</em>"} | 
+          <strong>Medicação:</strong> ${reg.medicacao || "<em>não informado</em>"}<br>
+          <strong>Gatilho:</strong> ${reg.gatilho || "<em>não informado</em>"}<br><br>
+          <strong>Observação:</strong> ${reg.observacao || "<em>não informado</em>"}
+        `;
+        historicoDiv.appendChild(div);
       });
     }
 
-    // Substituir emojis e caracteres especiais
-    const humorMap = {
-      '😂 Muito bom': 'Humor muito bom',
-      '🙂 Bom': 'Humor bom',
-      '😐 Neutro': 'Humor neutro',
-      '😢 Ruim': 'Humor ruim',
-      '😡 Muito ruim': 'Humor muito ruim',
-    };
+    function exportarRegistros() {
+      let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
 
-    const energiaMap = {
-      'Baixa 🐌': 'Energia baixa',
-      'Média 🦥': 'Energia média',
-      'Alta 🐎': 'Energia alta',
-    };
+      if (registros.length === 0) {
+        alert("Você não tem registros para exportar.");
+        return;
+      }
 
-    const sonoMap = {
-      'Pouco 💤': 'Sono pouco',
-      'Normal 😴': 'Sono normal',
-      'Demais 🛌': 'Sono demais',
-    };
-
-    const medicacaoMap = {
-      'Tomei tudo ✅': 'Tomou toda medicação',
-      'Esqueci alguma ❌': 'Esqueceu alguma medicação',
-      'Não tomei hoje': 'Não tomou medicação hoje',
-    };
-
-    // Adiciona cada campo com wrap e substitui emojis
-    addTextWithWrap(`😄 Humor do dia: ${humorMap[reg.humor] || reg.humor}`, margin + 5, y);
-    addTextWithWrap(`💭 Situação: ${reg.situacao || "(não informado)"}`, margin + 5, y);
-    addTextWithWrap(`🧠 Pensamento automático: ${reg.pensamento || "(não informado)"}`, margin + 5, y);
-    addTextWithWrap(`🔁 Reestruturação: ${reg.reestruturacao || "(não informado)"}`, margin + 5, y);
-    addTextWithWrap(`⚡ Energia: ${energiaMap[reg.energia] || reg.energia} | 😴 Sono: ${sonoMap[reg.sono] || reg.sono} | 💊 Medicação: ${medicacaoMap[reg.medicacao] || reg.medicacao}`, margin + 5, y);
-    addTextWithWrap(`🧨 Gatilho: ${reg.gatilho || "(não informado)"}`, margin + 5, y);
-    if (reg.observacao) {
-      addTextWithWrap(`📝 Observação: ${reg.observacao}`, margin + 5, y);
+      const conteudo = JSON.stringify(registros, null, 2); // Formato bonito
+      const blob = new Blob([conteudo], { type: 'application/json' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "diario_de_humor_exportado.json";
+      link.click();
     }
 
-    y += 5;
-  });
-  doc.save("Diario_de_Humor.pdf");
-}
+    async function exportarPDF() {
+      const { jsPDF } = window.jspdf;
+      const registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
+
+      if (registros.length === 0) {
+        alert("Você não tem registros para exportar.");
+        return;
+      }
+
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 20;
+      const maxWidth = pageWidth - margin * 2;
+
+      // Configurações iniciais
+      doc.setFont("helvetica");
+      doc.setFontSize(16);
+      doc.setTextColor(50, 50, 50);
+
+      // Cabeçalho
+      doc.text("📘 Diário de Humor", margin, 20);
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      doc.text("Registros baseados em Terapia Cognitivo-Comportamental", margin, 27);
+
+      let y = 40;
+
+      registros.forEach((reg, i) => {
+        if (i > 0) y += 10;
+        if (y > 270) {
+          doc.addPage();
+          y = 30;
+        }
+
+        // Título do registro
+        doc.setFontSize(12);
+        doc.setTextColor(60, 60, 60);
+        doc.text(`📌 Registro de ${reg.data}`, margin, y);
+
+        y += 7;
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+
+        // Função auxiliar para adicionar texto com quebra automática
+        function addTextWithWrap(text, x, yStart) {
+          const lines = doc.splitTextToSize(text, maxWidth);
+          lines.forEach(line => {
+            if (y > 280) {
+              doc.addPage();
+              y = 30;
+            }
+            doc.text(line, x, y);
+            y += 7;
+          });
+        }
+
+        // Substituir emojis e caracteres especiais
+        const humorMap = {
+          '😂 Muito bom': 'Humor muito bom',
+          '🙂 Bom': 'Humor bom',
+          '😐 Neutro': 'Humor neutro',
+          '😢 Ruim': 'Humor ruim',
+          '😡 Muito ruim': 'Humor muito ruim',
+        };
+
+        const energiaMap = {
+          'Baixa 🐌': 'Energia baixa',
+          'Média 🦥': 'Energia média',
+          'Alta 🐎': 'Energia alta',
+        };
+
+        const sonoMap = {
+          'Pouco 💤': 'Sono pouco',
+          'Normal 😴': 'Sono normal',
+          'Demais 🛌': 'Sono demais',
+        };
+
+        const medicacaoMap = {
+          'Tomei tudo ✅': 'Tomou toda medicação',
+          'Esqueci alguma ❌': 'Esqueceu alguma medicação',
+          'Não tomei hoje': 'Não tomou medicação hoje',
+        };
+
+        // Adiciona cada campo com wrap e substitui emojis
+        addTextWithWrap(`😄 Humor do dia: ${humorMap[reg.humor] || reg.humor}`, margin + 5, y);
+        addTextWithWrap(`💭 Situação: ${reg.situacao || "(não informado)"}`, margin + 5, y);
+        addTextWithWrap(`🧠 Pensamento automático: ${reg.pensamento || "(não informado)"}`, margin + 5, y);
+        addTextWithWrap(`🔁 Reestruturação: ${reg.reestruturacao || "(não informado)"}`, margin + 5, y);
+        addTextWithWrap(`⚡ Energia: ${energiaMap[reg.energia] || reg.energia} | 😴 Sono: ${sonoMap[reg.sono] || reg.sono} | 💊 Medicação: ${medicacaoMap[reg.medicacao] || reg.medicacao}`, margin + 5, y);
+        addTextWithWrap(`🧨 Gatilho: ${reg.gatilho || "(não informado)"}`, margin + 5, y);
+        if (reg.observacao) {
+          addTextWithWrap(`📝 Observação: ${reg.observacao}`, margin + 5, y);
+        }
+
+        y += 5;
+      });
+
+      doc.save("Diario_de_Humor.pdf");
+    }
   </script>
 
 </body>
