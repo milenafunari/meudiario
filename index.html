@@ -137,6 +137,7 @@
   <h1>📘 Diário de Humor</h1>
   <p>Registre seu dia com leveza e reestruture pensamentos usando técnicas da TCC.</p>
 
+  <!-- Botões principais -->
   <form id="diarioForm">
     
     <label for="data">📅 Data</label>
@@ -154,34 +155,34 @@
     <label for="humor">😄 Humor do dia</label>
     <select id="humor" name="humor">
       <option value="">Selecione...</option>
-      <option value="Muito bom">Muito bom</option>
-      <option value="Bom">Bom</option>
-      <option value="Neutro">Neutro</option>
-      <option value="Ruim">Ruim</option>
-      <option value="Muito ruim">Muito ruim</option>
+      <option value="Muito bom">😂 Muito bom</option>
+      <option value="Bom">🙂 Bom</option>
+      <option value="Neutro">😐 Neutro</option>
+      <option value="Ruim">😢 Ruim</option>
+      <option value="Muito ruim">😡 Muito ruim</option>
     </select>
 
     <label for="energia">⚡ Nível de energia</label>
     <select id="energia" name="energia">
       <option value="">Selecione...</option>
-      <option value="Baixa">Baixa</option>
-      <option value="Média">Média</option>
-      <option value="Alta">Alta</option>
+      <option value="Baixa">🐌 Baixa</option>
+      <option value="Média">🦥 Média</option>
+      <option value="Alta">🐎 Alta</option>
     </select>
 
     <label for="sono">😴 Sono da noite anterior</label>
     <select id="sono" name="sono">
       <option value="">Selecione...</option>
-      <option value="Pouco">Pouco</option>
-      <option value="Normal">Normal</option>
-      <option value="Demais">Demais</option>
+      <option value="Pouco">💤 Pouco</option>
+      <option value="Normal">😴 Normal</option>
+      <option value="Demais">🛌 Demais</option>
     </select>
 
     <label for="medicacao">💊 Tomou medicação?</label>
     <select id="medicacao" name="medicacao">
       <option value="">Selecione...</option>
-      <option value="Tomei tudo">Tomei tudo</option>
-      <option value="Esqueci alguma">Esqueci alguma</option>
+      <option value="Tomei tudo">✅ Tomei tudo</option>
+      <option value="Esqueci alguma">❌ Esqueci alguma</option>
       <option value="Não tomei hoje">Não tomei hoje</option>
     </select>
 
@@ -200,7 +201,8 @@
 
     <button type="submit">💾 Registrar meu dia</button>
     <button type="button" onclick="exportarRegistros()">📥 Exportar Registros (.json)</button>
-    <button type="button" onclick="exportarPDF()">📄 Exportar como PDF</button>
+    <button type="button" onclick="exportarTelaComoPDF()">📄 Exportar Histórico como PDF</button>
+    <button type="button" onclick="mostrarTutorial()">❓ Como usar</button>
   </form>
 
   <!-- Área de histórico -->
@@ -209,18 +211,72 @@
     <p><small>Os registros são salvos localmente no seu navegador.</small></p>
   </div>
 
-  <!-- Biblioteca jsPDF -->
+  <!-- Bibliotecas externas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js "></script>
 
+  <!-- Modal do Tutorial -->
+  <div id="tutorialModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; overflow:auto;">
+    <div style="background:#fff; margin:5% auto; padding:2rem; border-radius:10px; max-width:600px; box-shadow:0 4px 20px rgba(0,0,0,0.1);">
+      
+      <h2 style="color:#5e35b1; text-align:center;">📘 Diário de Humor</h2>
+      <p style="text-align:center;"><em>Um diário leve, mas poderoso</em></p>
+
+      <p><strong>🧠 O que é?</strong><br>
+      Um espaço pra registrar seu dia com técnicas da Terapia Cognitivo-Comportamental (TCC), usando o humor como ferramenta pra olhar pra si com distanciamento.</p>
+
+      <p><strong>🎯 Pra quê serve?</strong><br>
+      • Entender seus dias<br>
+      • Reestruturar pensamentos automáticos<br>
+      • Acompanhar seu humor ao longo do tempo<br>
+      • Criar uma rotina de autoconhecimento<br>
+      • Ser uma ferramenta útil pra terapeutas e acompanhamento pessoal</p>
+
+      <p><strong>🫂 Vai ajudar em quê?</strong><br>
+      Especialmente pra quem lida com Bipolaridade, o registro diário ajuda a identificar padrões, entender gatilhos e manter o controle emocional com leveza.</p>
+
+      <p><strong>📌 Dica:</strong><br>
+      Você não precisa preencher todos os campos todos os dias. Preencha quando sentir que vai te ajudar — a ideia é facilitar sua vida, não complicar 😊</p>
+
+      <p><strong>📝 Exemplo prático:</strong></p>
+      <div style="background:#f3e5f5; padding:1rem; border-left:4px solid #ba68c8; border-radius:8px; margin-bottom:1rem;">
+        <p><strong>Situação:</strong> Cheguei atrasado(a) numa reunião.<br>
+        <strong>Pensamento automático:</strong> “Todo mundo deve estar me julgando.”<br>
+        <strong>Reestruturação:</strong> “Pode ser que nem tenham reparado. E se tiveram, provavelmente entenderam.”</p>
+      </div>
+
+      <p><strong>📊 Por que registrar o humor?</strong><br>
+      Registrar o humor diário é uma forma simples de acompanhar sua saúde mental. Com isso, você pode perceber padrões, antecipar possíveis altos e baixos e compartilhar com seu terapeuta se quiser.</p>
+
+      <p><strong>💾 Exportação:</strong><br>
+      Você pode exportar seu histórico em formato `.json` (pra guardar) ou `.pdf` (pra imprimir ou mostrar pro terapeuta).</p>
+
+      <p style="text-align:center; font-style:italic; color:#666;">Você não está sozinho(a). Cada registro é um passo pra cuidar de si com carinho.</p>
+
+      <div style="text-align:center; margin-top:1rem;">
+        <button onclick="fecharTutorial()" style="
+          background:#7e57c2;
+          color:white;
+          border:none;
+          padding:0.6rem 1.2rem;
+          border-radius:8px;
+          cursor:pointer;
+          font-weight:bold;
+        ">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Área de scripts -->
   <script>
     const form = document.getElementById("diarioForm");
     const historicoDiv = document.getElementById("historico");
 
-    window.onload = function() {
+    window.onload = function () {
       carregarHistorico();
     };
 
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
 
       const registro = {
@@ -291,109 +347,35 @@
       link.click();
     }
 
-    async function exportarPDF() {
-      const { jsPDF } = window.jspdf;
-      const registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
+    async function exportarTelaComoPDF() {
+      const elemento = document.querySelector(".historico");
 
-      if (registros.length === 0) {
-        alert("Você não tem registros para exportar.");
+      if (!elemento || elemento.innerHTML.trim() === "") {
+        alert("Não há registros para exportar.");
         return;
       }
 
-      const doc = new jsPDF();
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const margin = 20;
-      const lineHeight = 7;
-      let y = 30;
-
-      // Cabeçalho
-      doc.setFontSize(16);
-      doc.setTextColor(50, 50, 50);
-      doc.text("Diário de Humor", margin, 20);
-      doc.setFontSize(10);
-      doc.setTextColor(100, 100, 100);
-      doc.text("Registros baseados em Terapia Cognitivo-Comportamental", margin, 27);
-
-      y = 40;
-
-      // Função para escrever texto com quebra de linha
-      function writeWrapped(text, x, yStart, maxWidth = pageWidth - 2 * margin) {
-        const words = text.split(' ');
-        let line = '';
-        let currentY = yStart;
-
-        for (let n = 0; n < words.length; n++) {
-          const word = words[n];
-          const txtWidth = doc.getTextWidth(line + ' ' + word);
-          if (txtWidth > maxWidth && n > 0) {
-            doc.text(line, x, currentY);
-            line = word;
-            currentY += lineHeight;
-          } else {
-            line = line ? line + ' ' + word : word;
-          }
-        }
-        if (line !== '') {
-          doc.text(line, x, currentY);
-          currentY += lineHeight;
-        }
-        return currentY;
-      }
-
-      // Gráfico de humor
-      const humorCount = {};
-      registros.forEach(r => {
-        const tipo = r.humor || "Não especificado";
-        humorCount[tipo] = (humorCount[tipo] || 0) + 1;
+      const canvas = await html2canvas(elemento, {
+        scale: 2,
+        backgroundColor: '#fff'
       });
 
-      doc.setFontSize(12);
-      doc.setTextColor(60, 60, 60);
-      doc.text("📊 Humor ao longo dos dias", margin, y);
-      y += lineHeight + 2;
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const imgWidth = pageWidth - 20;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      Object.entries(humorCount).forEach(([tipo, qtd]) => {
-        const bar = "■".repeat(qtd);
-        y = writeWrapped(`${tipo}: ${bar} (${qtd})`, margin, y + lineHeight);
-      });
+      pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+      pdf.save("Historico_de_Humor.pdf");
+    }
 
-      y += lineHeight;
+    function mostrarTutorial() {
+      document.getElementById("tutorialModal").style.display = "block";
+    }
 
-      // Registros completos
-      doc.setFontSize(12);
-      doc.setTextColor(60, 60, 60);
-
-      registros.forEach((reg, i) => {
-        if (i > 0) y += lineHeight;
-        if (y > 270) {
-          doc.addPage();
-          y = 30;
-        }
-
-        doc.setFontSize(12);
-        doc.setTextColor(60, 60, 60);
-        doc.text(`📌 Registro de ${reg.data}`, margin, y);
-        y += lineHeight + 2;
-
-        doc.setFontSize(10);
-        doc.setTextColor(80, 80, 80);
-
-        y = writeWrapped(`Humor do dia: ${reg.humor || "(não informado)"}`, margin + 5, y + 2);
-        y = writeWrapped(`Situação: ${reg.situacao || "(não informado)"}`, margin + 5, y);
-        y = writeWrapped(`Pensamento automático: ${reg.pensamento || "(não informado)"}`, margin + 5, y);
-        y = writeWrapped(`Reestruturação: ${reg.reestruturacao || "(não informado)"}`, margin + 5, y);
-        y = writeWrapped(`Energia: ${reg.energia || "(não informado)"}`, margin + 5, y);
-        y = writeWrapped(`Sono: ${reg.sono || "(não informado)"}`, margin + 5, y);
-        y = writeWrapped(`Medicação: ${reg.medicacao || "(não informado)"}`, margin + 5, y);
-        y = writeWrapped(`Gatilho: ${reg.gatilho || "(não informado)"}`, margin + 5, y);
-        if (reg.observacao) {
-          y = writeWrapped(`Observação: ${reg.observacao || "(não informado)"}`, margin + 5, y);
-        }
-
-        y += 5;
-      });
-
-      doc.save("Diario_de_Humor.pdf");
+    function fecharTutorial() {
+      document.getElementById("tutorialModal").style.display = "none";
     }
   </script>
 
