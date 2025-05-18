@@ -213,148 +213,78 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
 
   <script>
-    const form = document.getElementById("diarioForm");
-    const historicoDiv = document.getElementById("historico");
-
-    // Carrega os registros salvos ao iniciar
-    window.onload = function() {
-      carregarHistorico();
-    };
-
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const registro = {
-        data: document.getElementById("data").value,
-        situacao: document.getElementById("situacao").value,
-        pensamento: document.getElementById("pensamento").value,
-        reestruturacao: document.getElementById("reestruturacao").value,
-        humor: document.getElementById("humor").value,
-        energia: document.getElementById("energia").value,
-        sono: document.getElementById("sono").value,
-        medicacao: document.getElementById("medicacao").value,
-        gatilho: document.getElementById("gatilho").value,
-        observacao: document.getElementById("observacao").value
-      };
-
-      salvarRegistro(registro);
-      form.reset();
-      carregarHistorico();
-    });
-
-    function salvarRegistro(registro) {
-      let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
-      registros.unshift(registro); // Adiciona no início
-      localStorage.setItem("diarioHumor", JSON.stringify(registros));
-    }
-
-    function carregarHistorico() {
-      let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
-
-      historicoDiv.innerHTML = "<h2>🕒 Histórico de Registros</h2><p><small>Os registros são salvos localmente no seu navegador.</small></p>";
-
-      if (registros.length === 0) {
-        historicoDiv.innerHTML += "<p><em>Você ainda não fez nenhum registro.</em></p>";
-        return;
-      }
-
-      registros.forEach((reg, index) => {
-        const div = document.createElement("div");
-        div.className = "registro";
-        div.innerHTML = `
-          <strong>${reg.data}</strong> - ${reg.humor}<br><br>
-          <strong>Situação:</strong> ${reg.situacao || "<em>não informado</em>"}<br><br>
-          <strong>Pensamento automático:</strong> ${reg.pensamento || "<em>não informado</em>"}<br><br>
-          <strong>Reestruturação:</strong> ${reg.reestruturacao || "<em>não informado</em>"}<br><br>
-          <strong>Energia:</strong> ${reg.energia || "<em>não informado</em>"} | 
-          <strong>Sono:</strong> ${reg.sono || "<em>não informado</em>"} | 
-          <strong>Medicação:</strong> ${reg.medicacao || "<em>não informado</em>"}<br>
-          <strong>Gatilho:</strong> ${reg.gatilho || "<em>não informado</em>"}<br><br>
-          <strong>Observação:</strong> ${reg.observacao || "<em>não informado</em>"}
-        `;
-        historicoDiv.appendChild(div);
-      });
-    }
-
-    function exportarRegistros() {
-      let registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
-
-      if (registros.length === 0) {
-        alert("Você não tem registros para exportar.");
-        return;
-      }
-
-      const conteudo = JSON.stringify(registros, null, 2); // Formato bonito
-      const blob = new Blob([conteudo], { type: 'application/json' });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "diario_de_humor_exportado.json";
-      link.click();
-    }
-
     async function exportarPDF() {
-      const { jsPDF } = window.jspdf;
-      const registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
+  const { jsPDF } = window.jspdf;
+  const registros = JSON.parse(localStorage.getItem("diarioHumor")) || [];
 
-      if (registros.length === 0) {
-        alert("Você não tem registros para exportar.");
-        return;
-      }
+  if (registros.length === 0) {
+    alert("Você não tem registros para exportar.");
+    return;
+  }
 
-      const doc = new jsPDF();
+  const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const margin = 20;
+  const maxWidth = pageWidth - margin * 2;
 
-      // Cabeçalho
-      doc.setFontSize(16);
-      doc.setTextColor(40, 40, 40);
-      doc.text("📘 Diário de Humor", 105, 20, null, null, "center");
+  // Configurações iniciais
+  doc.setFont("helvetica");
+  doc.setFontSize(16);
+  doc.setTextColor(50, 50, 50);
 
-      doc.setFontSize(10);
-      doc.setTextColor(100, 100, 100);
-      doc.text("Registros baseados em Terapia Cognitivo-Comportamental", 105, 27, null, null, "center");
+  // Cabeçalho
+  doc.text("📘 Diário de Humor", margin, 20);
+  doc.setFontSize(10);
+  doc.setTextColor(100, 100, 100);
+  doc.text("Registros baseados em Terapia Cognitivo-Comportamental", margin, 27);
 
-      let y = 40;
+  let y = 40;
 
-      registros.forEach((reg, i) => {
-        if (i > 0) y += 10;
-        if (y > 270) {
-          doc.addPage();
-          y = 20;
-        }
-
-        doc.setFontSize(12);
-        doc.setTextColor(60, 60, 60);
-        doc.text(`📌 Registro de ${reg.data}`, 20, y);
-
-        y += 7;
-        doc.setFontSize(10);
-        doc.setTextColor(80, 80, 80);
-        doc.text(`Humor do dia: ${reg.humor}`, 25, y);
-
-        y += 7;
-        doc.text(`Situação: ${reg.situacao || "(não informado)"}`, 25, y);
-
-        y += 7;
-        doc.text(`Pensamento automático: ${reg.pensamento || "(não informado)"}`, 25, y);
-
-        y += 7;
-        doc.text(`Reestruturação: ${reg.reestruturacao || "(não informado)"}`, 25, y);
-
-        y += 7;
-        doc.text(`Energia: ${reg.energia} | Sono: ${reg.sono} | Medicação: ${reg.medicacao}`, 25, y);
-
-        y += 7;
-        doc.text(`Gatilho: ${reg.gatilho}`, 25, y);
-
-        if (reg.observacao) {
-          y += 7;
-          doc.text(`Observação: ${reg.observacao}`, 25, y);
-        }
-
-        y += 10;
-      });
-
-      doc.save("Diario_de_Humor.pdf");
+  registros.forEach((reg, i) => {
+    if (i > 0) y += 10;
+    if (y > 270) {
+      doc.addPage();
+      y = 30;
     }
+
+    // Título do registro
+    doc.setFontSize(12);
+    doc.setTextColor(60, 60, 60);
+    doc.text(`📌 Registro de ${reg.data}`, margin, y);
+
+    y += 7;
+    doc.setFontSize(10);
+    doc.setTextColor(80, 80, 80);
+
+    // Função auxiliar para adicionar texto com quebra automática
+    function addTextWithWrap(text, x, yStart) {
+      const lines = doc.splitTextToSize(text, maxWidth);
+      lines.forEach(line => {
+        if (y > 280) {
+          doc.addPage();
+          y = 30;
+        }
+        doc.text(line, x, y);
+        y += 7;
+      });
+    }
+
+    // Adiciona cada campo com wrap
+    addTextWithWrap(`😄 Humor do dia: ${reg.humor}`, margin + 5, y);
+    addTextWithWrap(`💭 Situação: ${reg.situacao || "(não informado)"}`, margin + 5, y);
+    addTextWithWrap(`🧠 Pensamento automático: ${reg.pensamento || "(não informado)"}`, margin + 5, y);
+    addTextWithWrap(`🔁 Reestruturação: ${reg.reestruturacao || "(não informado)"}`, margin + 5, y);
+    addTextWithWrap(`⚡ Energia: ${reg.energia} | 😴 Sono: ${reg.sono} | 💊 Medicação: ${reg.medicacao}`, margin + 5, y);
+    addTextWithWrap(`🧨 Gatilho: ${reg.gatilho}`, margin + 5, y);
+    if (reg.observacao) {
+      addTextWithWrap(`📝 Observação: ${reg.observacao}`, margin + 5, y);
+    }
+
+    y += 5;
+  });
+
+  doc.save("Diario_de_Humor.pdf");
+}
   </script>
 
 </body>
